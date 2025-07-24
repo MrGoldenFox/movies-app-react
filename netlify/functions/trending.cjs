@@ -1,27 +1,41 @@
+const fetch = require("node-fetch");
+
 exports.handler = async function () {
   const API_KEY = process.env.TMDB_API_KEY;
-  const fetch = (...args) =>
-    import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-  console.log("TMDB_API_KEY exists:", !!API_KEY);
-
-  const res = await fetch(
-    `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`
-  );
-
-  if (!res.ok) {
-    const errorText = await res.text();
-    console.error("TMDB ERROR:", res.status, errorText);
+  if (!API_KEY) {
     return {
-      statusCode: res.status,
-      body: `TMDB error: ${errorText}`,
+      statusCode: 500,
+      body: JSON.stringify({ error: "TMDB_API_KEY not found" }),
     };
   }
 
-  const data = await res.json();
+  const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`;
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(data),
-  };
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      const text = await res.text();
+      return {
+        statusCode: res.status,
+        body: JSON.stringify({
+          error: "TMDB responded with error",
+          details: text,
+        }),
+      };
+    }
+
+    const data = await res.json();
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Unexpected error", message: err.message }),
+    };
+  }
 };
