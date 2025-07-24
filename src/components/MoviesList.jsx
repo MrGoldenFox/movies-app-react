@@ -7,7 +7,7 @@ export function MoviesList({ movies, loading, searchInput }) {
   }, [movies]);
 
   return (
-    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 min-h-screen">
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 min-h-screen">
       {loading ? (
         <LoadingDots />
       ) : movieCards.length > 0 ? (

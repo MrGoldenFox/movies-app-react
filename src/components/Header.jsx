@@ -13,7 +13,9 @@ export function Header() {
 
   return (
     <header className="flex justify-between items-center px-6 py-2 gap-5 fixed z-40 bg-[var(--bg)]/20 w-full box-border rounded-bl-4xl rounded-br-4xl backdrop-blur-2xl h-16 top-0 left-0">
-      <img src={logo} alt="" className="w-15 h-15" />
+      <Link to={"/"}>
+        <img src={logo} alt="" className="w-15 h-15" />
+      </Link>
       <nav className="hidden md:flex gap-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.link;

@@ -12,11 +12,18 @@ export default function App() {
 
   useEffect(() => {
     async function fetchMovies() {
-      const response = await fetch("https://api.tvmaze.com/shows");
-      const data = await response.json();
-      setMovies(data.slice(0, 20));
-      setTopRated(data.filter((movie) => movie.rating.average > 8.5));
-      setLoading(false);
+      try {
+        const response = await fetch("/api/trending");
+        const data = await response.json();
+
+        console.log(data.results)
+
+        setMovies(data.results);
+        setTopRated(data.results.filter((movie) => movie.vote_average > 6));
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch movies:", error);
+      }
     }
 
     fetchMovies();

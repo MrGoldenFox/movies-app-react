@@ -6,7 +6,7 @@ export function MovieSection({ movies, title, loading }) {
   const [searchInput, setSearchInput] = useState("");
 
   const filteredMovies = movies.filter((movie) =>
-    movie.name.toLowerCase().includes(searchInput.toLowerCase())
+    movie.title.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   return (
